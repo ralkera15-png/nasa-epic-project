@@ -1,0 +1,31 @@
+import requests
+
+def retrieve_epic_photos(api_key, date):
+    endpoint_url = f"https://api.nasa.gov/EPIC/api/natural/date/{date}"
+    params = {"api_key": api_key}
+
+    response = requests.get(endpoint_url, params=params)
+
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print(f"Data not received. Status code: {response.status_code}")
+        return None
+
+# INSERT YOUR NASA API KEY BELOW
+api_key = "DEMO_KEY"
+
+# Choose a date
+date = "2016-03-08"
+
+photos = retrieve_epic_photos(api_key, date)
+
+if photos is not None:
+    print("Number of photos:", len(photos))
+
+    if len(photos) > 0:
+        print("\nFirst photo information:")
+        for key, value in photos[0].items():
+            print(key, ":", value)
+    else:
+        print("No photos available for this date.")
